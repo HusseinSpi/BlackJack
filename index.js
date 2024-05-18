@@ -7,6 +7,7 @@ class Game {
     this.endGame = false;
     this.canHold = false;
     this.init();
+    this.sound = new Audio("./sound/diceRoll.mp3");
   }
 
   init() {
@@ -45,8 +46,10 @@ class Game {
     document.querySelector(".shadow").style.left = "50%";
     document.getElementById("textWin2").textContent = "";
     document.getElementById("textWin1").textContent = "";
-    document.getElementById("player-two").style.backgroundColor = "rgb(215, 201, 184)";
-    document.getElementById("player-one").style.backgroundColor = "rgb(215, 201, 184)";
+    document.getElementById("player-two").style.backgroundColor =
+      "rgb(215, 201, 184)";
+    document.getElementById("player-one").style.backgroundColor =
+      "rgb(215, 201, 184)";
     document.getElementById("namePlayer1").style.color = "black";
     document.getElementById("namePlayer2").style.color = "black";
   }
@@ -58,6 +61,9 @@ class Game {
 
       document.getElementById("img1").src = `./Img/dice-${randomNumber1}.png`;
       document.getElementById("img2").src = `./Img/dice-${randomNumber2}.png`;
+      this.sound.pause();
+      this.sound.currentTime = 0;
+      this.sound.play();
       if (randomNumber1 === 6 && randomNumber2 === 6) {
         this.currentPlayer.currentScore = 0;
         this.switchPlayer();
@@ -84,29 +90,16 @@ class Game {
         }
       } else {
         this.currentPlayer.addScore(randomNumber1 + randomNumber2);
-        this.canHold = true
+        this.canHold = true;
       }
       this.updateUI();
     }
   }
 
   hold() {
-    if (!this.endGame && this.canHold) {
-      this.currentPlayer.holdScore();
-      if (this.currentPlayer.totalScore >= this.targetScore) {
-        if (this.currentPlayer.totalScore === this.targetScore) {
-          this.win();
-          this.endGame = true;
-        } else {
-          this.switchPlayer();
-          this.win();
-          this.endGame = true;
-        }
-        this.newGame();
-      } else {
-        this.switchPlayer();
-        this.canHold = false;
-      }
+    if (this.canHold) {
+      this.switchPlayer();
+      this.canHold = false;
     }
   }
 
