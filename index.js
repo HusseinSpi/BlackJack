@@ -5,6 +5,7 @@ class Game {
     this.currentPlayer = playerOne;
     this.targetScore = null;
     this.endGame = false;
+    this.canHold = false;
     this.init();
   }
 
@@ -39,12 +40,13 @@ class Game {
     this.currentPlayer = this.playerOne;
     this.updateUI();
     this.endGame = false;
+    this.canHold = false;
     document.querySelector(".start").style.display = "";
     document.querySelector(".shadow").style.left = "50%";
     document.getElementById("textWin2").textContent = "";
     document.getElementById("textWin1").textContent = "";
-    document.getElementById("player-two").style.backgroundColor = "##481E14";
-    document.getElementById("player-one").style.backgroundColor = "##481E14";
+    document.getElementById("player-two").style.backgroundColor = "rgb(215, 201, 184)";
+    document.getElementById("player-one").style.backgroundColor = "rgb(215, 201, 184)";
     document.getElementById("namePlayer1").style.color = "black";
     document.getElementById("namePlayer2").style.color = "black";
   }
@@ -82,13 +84,14 @@ class Game {
         }
       } else {
         this.currentPlayer.addScore(randomNumber1 + randomNumber2);
+        this.canHold = true
       }
       this.updateUI();
     }
   }
 
   hold() {
-    if (!this.endGame) {
+    if (!this.endGame && this.canHold) {
       this.currentPlayer.holdScore();
       if (this.currentPlayer.totalScore >= this.targetScore) {
         if (this.currentPlayer.totalScore === this.targetScore) {
@@ -102,6 +105,7 @@ class Game {
         this.newGame();
       } else {
         this.switchPlayer();
+        this.canHold = false;
       }
     }
   }
