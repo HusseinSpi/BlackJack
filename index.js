@@ -107,7 +107,7 @@ class Game {
     this.currentPlayer =
       this.currentPlayer === this.playerOne ? this.playerTwo : this.playerOne;
     document.querySelector(".shadow").style.left =
-      this.currentPlayer === this.playerOne ? "50%" : "13.8%";
+      this.currentPlayer === this.playerOne ? "50%" : "calc(50% - 550px)";
     this.updateUI();
   }
 
